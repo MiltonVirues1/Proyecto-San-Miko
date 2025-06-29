@@ -28,17 +28,25 @@ def escuchar():
 
 # Comienzo
 hablar("Hola Milton, soy San Miko. Te escucho.")
+
 while True:
     comando = escuchar()
 
     if "abrí música" in comando or "abrir música" in comando:
-     hablar("Abriendo YouTube Music en el navegador.")
-     webbrowser.open("https://music.youtube.com/")
-    elif "reproduci algo" in comando or "Iniciar música" in comando:
-     hablar("Entendido milton, ya la reproduzco pa.")
-     webbrowser.open("https://music.youtube.com/watch?v=APYazXm6lH0&si=-KvMwprC4zLQ7-vS") 
+        hablar("Abriendo YouTube Music en el navegador.")
+        webbrowser.open("https://music.youtube.com/")
+
+    elif "reproducí algo" in comando or "iniciar música" in comando:
+        hablar("Entendido Milton, ya la reproduzco.")
+        webbrowser.open("https://music.youtube.com/watch?v=APYazXm6lH0&si=-KvMwprC4zLQ7-vS")
+
     elif "chau" in comando or "chao" in comando or "cerrar" in comando:
-     hablar("Hasta luego, Milton.")
-     break
+        hablar("Hasta luego, Milton.")
+        break
+
     elif comando != "":
         hablar("Ese comando aún no lo conozco.")
+
+    # Volver a escuchar
+    hablar("¿Te escucho para otra orden?")
+
