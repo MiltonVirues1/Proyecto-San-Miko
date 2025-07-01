@@ -21,7 +21,7 @@ def escuchar():
     try:
         comando = r.recognize_google(audio, language='es-AR')
         print("Usuario:", comando)
-        return comando.lower()
+        return comando.lower() #Simplifica el reconocimiento de voz, pasando lo que el usuario diga a minusculas para evitar errores molestos
     except:
         hablar("Perdón, no entendí.")
         return ""
