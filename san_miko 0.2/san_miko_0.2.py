@@ -5,6 +5,9 @@ import pyttsx3
 import os
 import urllib.parse
 import pyautogui
+from pycaw.pycaw import AudioUtilities, IAudioEndpointVolume
+from ctypes import cast, POINTER
+from comtypes import CLSCTX_ALL
 
 voz = pyttsx3.init() #Inicio del conversor de texto a voz del asistente
 voz.setProperty('rate',150)
@@ -28,6 +31,21 @@ def escuchar():
     except:
         print('Lo siento no entendi bien, podes volver a repetirlo porfavor?')
         return ""
+def volumen_control():
+    disp = AudioUtilities.GetSpeakers()
+    interfaz = disp.Activate(IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
+    volumen = cast(interfaz, POINTER(IAudioEndpointVolume))
+    return volumen
+def subir_volumen(volume_step=0.05):
+    volumen = volumen_control()
+    volumen_actual = volumen.GetMasterVolumeLevelScalar()
+    volumen_nuevo = min(1.0, volumen_actual + volume_step)
+    volumen.SetMasterVolumeLevelScalar(volumen_nuevo, None)
+def bajar_volumen(volume_step=0.05):
+    volumen = volumen_control()
+    volumen_actual = volumen.GetMasterVolumeLevelScalar()
+    volumen_nuevo = max(0.0, volumen_actual - volume_step)
+    volumen.SetMasterVolumeLevelScalar(volumen_nuevo, None)
 while True:
     comando = escuchar()
     if 'miko' in comando or 'despierta' in comando: 
@@ -76,6 +94,12 @@ while True:
     elif 'este equipo' in comando:
         hablar('Abriendo Este equipo')
         os.startfile(r"C:\Users\NoxiePC\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\System Tools\computer.lnk")
+    elif 'Subir volumen' in comando or 'subir volumen' in comando:
+        hablar('Subiendo el volumen un 5%')
+        subir_volumen()
+    elif 'Bajar volumen' in comando or 'bajar volumen' in comando:
+        hablar('Bajando el volumen un 5%')
+        bajar_volumen()
     elif comando.strip() != "":
      print("Comando no reconocido:", comando)
     
